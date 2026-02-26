@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta de Folio | Desarrollo e Inclusión</title>
+
+<style>
+:root{
+  --bg:#0b0b10;
+  --card: rgba(255,255,255,.08);
+  --stroke: rgba(255,255,255,.14);
+  --text:#f5f7ff;
+  --muted: rgba(245,247,255,.75);
+  --ok:#19c37d;
+  --no:#ff4d4d;
+  --warn:#ffcc00;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(1000px 600px at 20% 10%, rgba(121,40,202,.35), transparent 60%),
+    radial-gradient(900px 500px at 80% 20%, rgba(0,198,255,.28), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  padding:20px;
+}
+
+.card{
+  width:100%;
+  max-width:520px;
+  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+  border:1px solid var(--stroke);
+  border-radius:20px;
+  padding:30px;
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
+  text-align:center;
+}
+
+h1{
+  font-size:26px;
+  margin-bottom:12px;
+}
+
+p{
+  color:var(--muted);
+  margin-bottom:20px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid var(--stroke);
+  background:rgba(0,0,0,.35);
+  color:white;
+  margin-bottom:15px;
+  font-size:15px;
+  text-align:center;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ff0080,#7928ca);
+  color:white;
+  transition:.2s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+}
+
+.result{
+  margin-top:20px;
+  padding:15px;
+  border-radius:12px;
+  display:none;
+}
+
+.ok{
+  background:rgba(25,195,125,.15);
+  border:1px solid rgba(25,195,125,.4);
+  color:var(--ok);
+}
+
+.no{
+  background:rgba(255,77,77,.15);
+  border:1px solid rgba(255,77,77,.4);
+  color:var(--no);
+}
+
+.warn{
+  background:rgba(255,204,0,.15);
+  border:1px solid rgba(255,204,0,.4);
+  color:var(--warn);
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Consulta tu Folio</h1>
+  <p>Ingresa tu folio asignado para verificar tu estatus.</p>
+
+  <input type="text" id="folio" placeholder="Ejemplo: DI-8F2K-19QZ">
+
+  <button onclick="consultar()">Consultar</button>
+
+  <div id="resultado" class="result"></div>
+</div>
+
+<script>
+
+// 🔥 Folios de prueba (simulación)
+const folios = {
+  "DI-8F2K-19QZ": "BENEFICIARIO",
+  "DI-55LM-2TT0": "BENEFICIARIO",
+  "DI-7A1M-00PX": "NO_BENEFICIARIO",
+  "DI-0Z9X-1111": "NO_BENEFICIARIO"
+};
+
+function consultar(){
+  const input = document.getElementById("folio").value.trim().toUpperCase();
+  const resultado = document.getElementById("resultado");
+
+  if(!input){
+    resultado.className = "result warn";
+    resultado.style.display = "block";
+    resultado.innerHTML = "⚠️ Ingresa un folio válido.";
+    return;
+  }
+
+  if(folios[input]){
+    if(folios[input] === "BENEFICIARIO"){
+      resultado.className = "result ok";
+      resultado.innerHTML = "✅ ¡FELICIDADES! Fuiste BENEFICIARIO del programa.";
+    } else {
+      resultado.className = "result no";
+      resultado.innerHTML = "❌ No resultaste beneficiario en esta convocatoria.";
+    }
+  } else {
+    resultado.className = "result warn";
+    resultado.innerHTML = "⚠️ Folio no encontrado. Verifica que esté escrito correctamente.";
+  }
+
+  resultado.style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
