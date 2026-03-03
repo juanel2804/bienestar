@@ -127,7 +127,21 @@ footer{
 }
 </style>
 </head>
+<script>
+    // Si no hay marca de sesión en esta pestaña
+    if (!sessionStorage.getItem("active_session")) {
+        // Redirige al login
+        window.location.href = "/login/";
+    }
 
+    // Cuando se carga correctamente después de login
+    sessionStorage.setItem("active_session", "true");
+
+    // Cuando se cierra o recarga la pestaña
+    window.addEventListener("beforeunload", function () {
+        sessionStorage.removeItem("active_session");
+    });
+</script>
 <body>
 
 <header>
@@ -139,7 +153,7 @@ footer{
 <a href="#mision">Misión</a>
 <a href="#programas">Programas</a>
 <a href="#contacto">Contacto</a>
-<a href="http://192.168.1.212:8000/admin/login/?next=/admin/" class="btn">
+<a href="http://10.98.136.242:8000/admin/login/?next=/admin/" class="btn">
 Zona Interna
 </a>
 </nav>
